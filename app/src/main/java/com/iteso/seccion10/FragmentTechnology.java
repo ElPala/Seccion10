@@ -45,5 +45,6 @@ public class FragmentTechnology extends Fragment {
         recyclerView.setAdapter(mAdapter);
         return view;
     }
+
 }
 
