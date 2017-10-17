@@ -1,5 +1,6 @@
 package com.iteso.seccion10;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     ViewPager viewPager;
     TabLayout tabLayout;
+    private final int INTENT_PRODUCTS_NOTIFY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this,ActivityPrivacyPolicy.class);
                 startActivity(intent);
                 return true;
+            case R.id.action_products:
+                Intent products = new Intent(this, ActivityProduct.class);
+                startActivityForResult(products, INTENT_PRODUCTS_NOTIFY);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -123,4 +129,19 @@ public class MainActivity extends AppCompatActivity {
             return inflater.inflate(R.layout.fragment_main,container,false);
         }
     }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+            case INTENT_PRODUCTS_NOTIFY:
+                if (resultCode == Activity.RESULT_OK) {
+                    if(data != null){
+                        ItemProduct itemProduct = data.getParcelableExtra("ITEM");
+                        if(itemProduct.getCategory().getName().equalsIgnoreCase("TECHNOLOGY")){
+                            FragmentTechnology.notifyDataSetChanged(itemProduct);
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
 }

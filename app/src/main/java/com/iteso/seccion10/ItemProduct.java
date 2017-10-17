@@ -3,17 +3,47 @@ package com.iteso.seccion10;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.iteso.seccion10.beans.Category;
+import com.iteso.seccion10.beans.Store;
+
 /**
  * Created by Palaf on 21/09/2017.
  */
 public  class ItemProduct implements Parcelable {
 
     private int image;
-    private String title;
-    private String store;
+    private int code;
+    private  String title;
+    private  Store store;
     private String location;
     private String phone;
+    private Category category;
     private String description;
+
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public  Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public static final Creator<ItemProduct> CREATOR = new Creator<ItemProduct>() {
         @Override
@@ -42,16 +72,16 @@ public  class ItemProduct implements Parcelable {
     public ItemProduct(Parcel in) {
         image = in.readInt();
         title = in.readString();
-        store = in.readString();
         location = in.readString();
         phone = in.readString();
         description = in.readString();
+        store = in.readParcelable(Store.class.getClassLoader());
+        category = in.readParcelable(Category.class.getClassLoader());
     }
 
     public ItemProduct(){
         image = 0;
         title = "";
-        store = "";
         location = "";
         phone = "";
         description = "";
@@ -65,20 +95,12 @@ public  class ItemProduct implements Parcelable {
         this.image = image;
     }
 
-    public String getTitle() {
+    public  String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getStore() {
-        return store;
-    }
-
-    public void setStore(String store) {
-        this.store = store;
     }
 
     public String getLocation() {
@@ -112,13 +134,14 @@ public  class ItemProduct implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(image);
         parcel.writeString(title);
-        parcel.writeString(store);
         parcel.writeString(location);
         parcel.writeString(phone);
         parcel.writeString(description);
+        parcel.writeParcelable(store, flags);
+        parcel.writeParcelable(category, flags);
     }
 
 

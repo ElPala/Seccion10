@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -68,9 +67,11 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.mProductTitle.setText(mDataSet.get(position).getTitle());
-        holder.mProductStore.setText(mDataSet.get(position).getStore());
-        holder.mProductLocation.setText(mDataSet.get(position).getLocation());
-        holder.mProductPhone.setText(mDataSet.get(position).getPhone());
+        holder.mProductStore.setText(mDataSet.get(position).getStore().getName());
+        holder.mProductLocation.setText(
+                mDataSet.get(position).getStore().getCity().getName() + ", Jalisco");
+        holder.mProductPhone.setText(mDataSet.get(position).getStore().getPhone());
+
         switch (mDataSet.get(position).getImage()) {
             case 0:
                 holder.mProductImage.setImageResource(R.drawable.mac);
@@ -82,11 +83,12 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ViewHold
         Bitmap bitmap = ((BitmapDrawable) holder.mProductThumbnail.getDrawable()).getBitmap();
         holder.mProductThumbnail.setImageBitmap(bitmap);
 
-        holder.mDetail.setOnClickListener(new View.OnClickListener() {
+        holder.mProductPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, mDataSet.get(position).toString(),
-                        Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Intent.ACTION_DIAL,
+                        Uri.parse("tel:" + mDataSet.get(position).getStore().getPhone()));
+                context.startActivity(intent);
             }
         });
 
