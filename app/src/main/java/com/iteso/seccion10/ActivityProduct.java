@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.iteso.seccion10.beans.Category;
+import com.iteso.seccion10.beans.ItemProduct;
 import com.iteso.seccion10.beans.Store;
 import com.iteso.seccion10.database.CategoryControl;
 import com.iteso.seccion10.database.DataBaseHandler;
@@ -35,6 +39,13 @@ public class ActivityProduct extends AppCompatActivity {
     protected Store storeSelected; //Store selected in spinner
     protected Category categorySelected; //Category selected in spinner
     protected int imageSelected; //Image selected in spinner
+    protected Toolbar toolbar;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_product_menu2, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
 
     @Override
@@ -42,24 +53,31 @@ public class ActivityProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
         //Cast GUI elements
+        toolbar = (Toolbar)findViewById(R.id.activity_product_toolbar);
+        setSupportActionBar(toolbar);
+        stores = (Spinner)findViewById(R.id.activity_product_category) ;
+        categories = (Spinner)findViewById(R.id.activity_product_store) ;
+        images = (Spinner)findViewById(R.id.activity_product_image) ;
+        id = (EditText) findViewById(R.id.activity_product_id);
+        title = (EditText) findViewById(R.id.activity_product_title);
+        description = (EditText) findViewById(R.id.activity_product_description);
+        storeSelected = new Store();
 
-
-        storeSelected = null;
-        categorySelected = null;
+        categorySelected = new Category();
+        categorySelected.setName("lala");
+        categorySelected.setIdCategory(2);
         imageSelected = -1;
 //DataBase Objects
         dh = DataBaseHandler.getInstance(this);
         StoreControl storeControl = new StoreControl();
         CategoryControl categoryControl = new CategoryControl();
 //Fill info from Database
-        ArrayList<Store> storesList = storeControl.getStoresWhere(null, null, dh);
+        ArrayList<Store> storesList = storeControl.getStoresWhere( -103.4207757, 20.6489713, dh);
         ArrayList<Category> categoriesList = categoryControl.getAllCategories(dh);
 //Create Adapter to show into Spinner, ListView or GridLayout
-        storesAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, storesList);
+        storesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, storesList);
         stores.setAdapter(storesAdapter);
-        categoriesAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categoriesList);
+        categoriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categoriesList);
         categories.setAdapter(categoriesAdapter);
 
 
@@ -87,12 +105,13 @@ public class ActivityProduct extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_save) {
+        if (item.getItemId() == R.id.action_save2) {
             if(isValidProduct()){
                 ItemProduct itemProduct = new ItemProduct();
                 itemProduct.setTitle(title.getText().toString().trim());
                 itemProduct.setDescription(description.getText().toString().trim());
                 itemProduct.setStore(storeSelected);
+                itemProduct.setCategory(categorySelected);
                 itemProduct.setCategory(categorySelected);
                 itemProduct.setImage(imageSelected);
                 ItemProductControl itemProductControl = new ItemProductControl();

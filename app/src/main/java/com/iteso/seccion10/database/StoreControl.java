@@ -105,7 +105,47 @@ public class StoreControl {
     }
 
 
-    public ArrayList<Store> getStoresWhere(Object o, Object o1, DataBaseHandler dh) {
-        return new ArrayList<>();
+    public ArrayList<Store> getStoresWhere(Double lng, Double lat, DataBaseHandler dh) {
+        ArrayList<Store> stores = new ArrayList<>();
+        String selectQuery = "SELECT S." + DataBaseHandler.KEY_STORE_ID + ","
+                + "S." + DataBaseHandler.KEY_STORE_LAT + ","
+                + "S." + DataBaseHandler.KEY_STORE_LNG + ","
+                + "S." + DataBaseHandler.KEY_STORE_NAME + ","
+                + "S." + DataBaseHandler.KEY_STORE_PHONE + ","
+                + "S." + DataBaseHandler.KEY_STORE_THUMBNAIL + ","
+                + "C." + DataBaseHandler.KEY_CITY_ID + ","
+                + "C." + DataBaseHandler.KEY_CITY_NAME + " FROM "
+                + DataBaseHandler.TABLE_STORE + " S, "
+                + DataBaseHandler.TABLE_CITY + " C WHERE S."
+                + DataBaseHandler.KEY_STORE_LNG + "= " + lng
+                + " AND S." + DataBaseHandler.KEY_STORE_CITY
+                + " = C." + DataBaseHandler.KEY_CITY_ID
+                +" AND S."+ DataBaseHandler.KEY_STORE_LAT +"="+lat;
+        SQLiteDatabase db = dh.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do{
+                Store store = new Store();
+                store.setId(cursor.getInt(0));
+                store.setLatitude(cursor.getDouble(1));
+                store.setLongitude(cursor.getDouble(2));
+                store.setName(cursor.getString(3));
+                store.setPhone(cursor.getString(4));
+                store.setThumbnail(cursor.getInt(5));
+                City city = new City();
+                city.setIdCity(cursor.getInt(6));
+                city.setName(cursor.getString(7));
+                store.setCity(city);
+                stores.add(store);
+            }while (cursor.moveToNext());
+        }
+        try {
+            cursor.close();
+            db.close();
+        } catch (Exception e) {
+        }
+        db = null;
+        cursor = null;
+        return stores;
     }
 }

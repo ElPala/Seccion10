@@ -20,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.iteso.seccion10.beans.ItemProduct;
+
 public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;

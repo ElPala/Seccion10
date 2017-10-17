@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.iteso.seccion10.beans.ItemProduct;
 import com.iteso.seccion10.database.DataBaseHandler;
 import com.iteso.seccion10.database.ItemProductControl;
 
@@ -38,7 +39,7 @@ public class FragmentTechnology extends Fragment {
 
         ItemProductControl itemProductControl = new ItemProductControl();
         myDataSet = itemProductControl.getProductsWhere(
-                null, DataBaseHandler.KEY_PRODUCT_ID + " ASC",
+                "0", DataBaseHandler.KEY_PRODUCT_ID + " ASC",
                 DataBaseHandler.getInstance(getActivity()));
         mAdapter = new AdapterProduct(getActivity(), myDataSet);
         recyclerView.setAdapter(mAdapter);

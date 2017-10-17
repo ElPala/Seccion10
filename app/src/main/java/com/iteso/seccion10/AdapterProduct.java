@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.iteso.seccion10.beans.ItemProduct;
+
 import java.util.ArrayList;
 
 /**
@@ -92,14 +94,6 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ViewHold
             }
         });
 
-        holder.mProductPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL,
-                        Uri.parse("tel:" + mDataSet.get(position).getPhone()));
-                context.startActivity(intent);
-            }
-        });
         holder.mEventLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

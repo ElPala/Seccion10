@@ -36,7 +36,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public static final String KEY_PRODUCT_TITLE = "name";
     public static final String KEY_PRODUCT_IMAGE = "image";
     public static final String KEY_PRODUCT_CATEGORY = "idCategory";
-
+    public static final String KEY_PRODUCT_DESCRIPTION = "description";
+    public static final String KEY_PRODUCT_STORE = "idStore";
 
 
     private DataBaseHandler(Context context) {
@@ -46,8 +47,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CITY_TABLE = "CREATE TABLE " + TABLE_CITY + "("
-                + KEY_CITY_ID + " INTEGER PRIMARY KEY,"
-                + KEY_CITY_NAME + " TEXT)";
+                                            + KEY_CITY_ID + " INTEGER PRIMARY KEY,"
+                                            + KEY_CITY_NAME + " TEXT)";
         db.execSQL(CREATE_CITY_TABLE);
         String CREATE_CATEGORY_TABLE = "CREATE TABLE " + TABLE_CATEGORY + "("
                 + KEY_CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -66,7 +67,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 + KEY_PRODUCT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_PRODUCT_TITLE + " TEXT,"
                 + KEY_PRODUCT_IMAGE + " INTEGER,"
-                + KEY_PRODUCT_CATEGORY + " INTEGER)";
+                + KEY_PRODUCT_CATEGORY + " INTEGER,"
+                + KEY_PRODUCT_STORE + " INTEGER,"
+                + KEY_PRODUCT_DESCRIPTION + " TEXT)";
         db.execSQL(CREATE_PRODUCT_TABLE);
         db.execSQL("INSERT INTO " + TABLE_CATEGORY + " (" + KEY_CATEGORY_NAME + ") VALUES ('TECHNOLOGY')");
         db.execSQL("INSERT INTO " + TABLE_CATEGORY + " (" + KEY_CATEGORY_NAME + ") VALUES ('HOME')");
